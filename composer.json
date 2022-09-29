@@ -1,0 +1,21 @@
+{
+    "name": "krivahtoo/octagon-project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Noah Too",
+            "email": "krivahtoo@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "3.*",
+        "monolog/monolog": "^2.8",
+        "robmorgan/phinx": "^0.12.12",
+        "chadicus/slim-oauth2": "^3.1"
+    }
+}
