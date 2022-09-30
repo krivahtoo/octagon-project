@@ -11,7 +11,7 @@ $settings = [
 
   'logger' => [
     'name' => 'app',
-    'path' => __DIR__ . '/logs/app.log',
+    'path' => __DIR__ . '/../logs/app.log',
   ],
 
   'db' => [
