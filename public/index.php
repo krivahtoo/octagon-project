@@ -25,6 +25,11 @@ $container['logger'] = function ($c) {
   return $logger;
 };
 
+// setup error handler
+$container['errorHandler'] = function ($c) {
+    return new ErrorHandler();
+};
+
 // Initialize database PDO instance
 $container['db'] = function ($c) {
   $db = $c['settings']['db'];
