@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class UserAction
+class RegisterAction
 {
   protected PDO $db;
   protected Logger $logger;
@@ -25,7 +25,7 @@ class UserAction
   }
 
   /**
-   * Handle GET /user requests.
+   * Handle POST /register requests.
    *
    * @param ServerRequestInterface $request   Represents the current HTTP request.
    * @param ResponseInterface      $response  Represents the current HTTP response.
@@ -35,14 +35,8 @@ class UserAction
    */
   public function __invoke(Request $request, Response $response, array $args = [])
   {
-    $this->logger->debug("User request");
-    $result = [
-      'id' => 1,
-      'first_name' => 'John',
-      'last_name' => 'Doe',
-      'phone' => '0712345678',
-    ];
+    $this->logger->debug("User registration request");
 
-    return $response->withJson($result);
+    return $response->withJson(['success' => true], 201);
   }
 }
