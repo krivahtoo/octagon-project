@@ -413,7 +413,7 @@ class Storage implements
    */
   protected function checkPassword($user, $password)
   {
-    return $user['password'] == $this->hashPassword($password);
+    return password_verify($password, $user['password']);
   }
 
   // use a secure hashing algorithm when storing passwords.

@@ -7,7 +7,6 @@ use App\ResponseBridge;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use OAuth2;
-use OAuth2\Response;
 
 /**
  * Slim route for /token endpoint.
@@ -44,10 +43,9 @@ class Token
    */
   public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $arguments = [])
   {
-    $response = new Response();
-    $this->server->grantAccessToken(RequestBridge::toOAuth2($request), $response);
-
-    $response = ResponseBridge::fromOauth2($response);
+    $response = ResponseBridge::fromOAuth2(
+      $this->server->handleTokenRequest(RequestBridge::toOAuth2($request))
+    );
 
     if ($response->hasHeader('Content-Type')) {
       return $response;
