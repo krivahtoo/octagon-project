@@ -10,10 +10,10 @@ use OAuth2\Server;
 use Slim\App;
 
 return function (App $app, Server $server) {
-  $auth = new Authorization($server, $app->getContainer());
-  $app->post('/api/token', new Token($server))->setName('token');
-  $app->group('/api', function (App $app) use ($auth) {
-    $app->get('/user/{phone:.+}', UserAction::class)->add($auth);
+  $app->group('/api', function (App $app) use ($server) {
+    $auth = new Authorization($server, $app->getContainer());
+    $app->get('/user', new UserAction($app->getContainer(), $server))->add($auth);
+    $app->post('/token', new Token($server))->setName('token');
     $app->post('/register', RegisterAction::class);
   });
 };

@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Auth\Storage;
 use Monolog\Logger;
+use OAuth2\Server;
 use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -10,18 +12,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class UserAction
 {
-  protected PDO $db;
+  protected Storage $storage;
   protected Logger $logger;
+  protected Server $server;
 
   /**
    * Constructor receives container instance
    *
    * @param ContainerInterface   $c  container instance
    */
-  public function __construct(ContainerInterface $c)
+  public function __construct(ContainerInterface $c, Server $server)
   {
-    $this->db = $c->get('db');
+    $this->storage = new Storage($c->get('db'));
     $this->logger = $c->get('logger');
+    $this->server = $server;
   }
 
   /**
@@ -36,12 +40,10 @@ class UserAction
   public function __invoke(Request $request, Response $response, array $args = [])
   {
     $this->logger->debug("User request");
-    $result = [
-      'id' => 1,
-      'first_name' => 'John',
-      'last_name' => 'Doe',
-      'phone' => '0712345678',
-    ];
+    $result = $this->storage->getUser($this->server->getAccessTokenData(\OAuth2\Request::createFromGlobals())['user_id']);
+
+    // we do not want to sent the password
+    unset($result['password']);
 
     return $response->withJson($result);
   }
