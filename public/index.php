@@ -8,7 +8,6 @@ use OAuth2\GrantType;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Slim\App;
-use Slim\Http;
 use PDO;
 use Slim\Http\Request;
 use Slim\Http\Response;

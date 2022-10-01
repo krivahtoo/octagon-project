@@ -5,7 +5,6 @@ namespace App;
 use App\Auth\Storage;
 use Monolog\Logger;
 use OAuth2\Server;
-use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
