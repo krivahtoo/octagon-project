@@ -2,9 +2,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use App\Auth\Storage;
+use App\ErrorHandler;
+use OAuth2\GrantType;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Slim\App;
+use Slim\Http;
 use PDO;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -14,6 +18,11 @@ $routes = require __DIR__ . '/../app/routes.php';
 
 // Create Slim app
 $app = new App(['settings' => $settings]);
+
+$pdo = new PDO('sqlite:' . $settings['db']['path']);
+
+// setup OAuth2 storage
+$storage = new Storage($pdo);
 
 // Fetch DI Container
 $container = $app->getContainer();
@@ -29,7 +38,7 @@ $container['logger'] = function ($c) {
 
 // setup error handler
 $container['errorHandler'] = function ($c) {
-    return new ErrorHandler();
+  return new ErrorHandler();
 };
 
 // Initialize database PDO instance
@@ -41,7 +50,20 @@ $container['db'] = function ($c) {
   return $pdo;
 };
 
-$routes($app);
+$server = new OAuth2\Server(
+  $storage,
+  [
+    'access_lifetime'                => 3600,
+    'always_issue_new_refresh_token' => true,
+    'refresh_token_lifetime'         => 2419200,
+  ],
+  [
+    new GrantType\RefreshToken($storage),
+    new GrantType\UserCredentials($storage),
+  ]
+);
+
+$routes($app, $server);
 
 // Override the default Not Found Handler
 // This should return index.html for the frontend to handle the routing

@@ -15,7 +15,7 @@ $settings = [
   ],
 
   'db' => [
-    'path' => __DIR__ . '/storage.db',
+    'path' => __DIR__ . '/../storage.db',
   ],
 ];
 
