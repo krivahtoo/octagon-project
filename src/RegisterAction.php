@@ -2,11 +2,12 @@
 
 namespace App;
 
+use App\Auth\Storage;
 use Monolog\Logger;
 use PDO;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class RegisterAction
 {
@@ -37,6 +38,13 @@ class RegisterAction
   {
     $this->logger->debug("User registration request");
 
-    return $response->withJson(['success' => true], 201);
+    $storage = new Storage($this->db);
+    $data = $request->getParsedBody();
+
+    if ($storage->setUser($data['phone'], $data['password'], $data['first_name'], $data['last_name'])) {
+      return $response->withJson(['success' => true], 201);
+    } else {
+      return $response->withJson(['success' => false], 500);
+    }
   }
 }

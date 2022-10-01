@@ -19,6 +19,6 @@ class ErrorHandler
    */
   public function __invoke(Request $request, Response $response, Exception $exception)
   {
-    return $response->withJson(['success' => false, 'error' => 'Something went wrong!'], 500);
+    return $response->withJson(['success' => false, 'error' => 'Something went wrong!', 'message'=> $exception->getMessage()], 500);
   }
 }
