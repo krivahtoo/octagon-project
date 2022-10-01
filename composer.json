@@ -16,6 +16,7 @@
         "slim/slim": "3.*",
         "monolog/monolog": "^2.8",
         "robmorgan/phinx": "^0.12.12",
-        "bshaffer/oauth2-server-php": "^1.12"
+        "bshaffer/oauth2-server-php": "^1.12",
+        "laminas/laminas-diactoros": "^2.17"
     }
 }
