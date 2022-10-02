@@ -10,6 +10,7 @@ php -S localhost:8000 -t ./public
 
 vue 3
 ```bash
+cd frontend
 pnpm install
 pnpm run dev
 ```
