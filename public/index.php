@@ -64,6 +64,18 @@ $server = new OAuth2\Server(
 
 $routes($app, $server);
 
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+  return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+  $response = $next($req, $res);
+  return $response
+    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:5173') // allow frontend origin
+    ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+    ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+});
+
 // Override the default Not Found Handler
 // This should return index.html for the frontend to handle the routing
 unset($app->getContainer()['notFoundHandler']);
