@@ -7,6 +7,7 @@ const router = useRouter()
 
 function logout() {
   store.logout()
+  localStorage.clear()
   router.push('/login')
 }
 </script>

@@ -9,7 +9,12 @@ const user = useUserStore()
 
 onBeforeMount(async () => {
   const token = localStorage.getItem('token')
+  const expiry = localStorage.getItem('token_expiry')
   if (token) {
+    if (Math.floor(Date.now()/1000)-parseInt(expiry) > 0) {
+      localStorage.clear()
+      return
+    }
     store.token = token
   }
   if (store.token !== '') {
@@ -21,6 +26,7 @@ onBeforeMount(async () => {
     })
     if (response.ok) {
       const res = await response.json()
+      store.isLoggedIn = true
       console.log(res)
       user.setUser(res)
     }

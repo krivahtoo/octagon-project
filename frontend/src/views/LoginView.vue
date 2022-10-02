@@ -30,6 +30,8 @@ async function login() {
   if (response.ok) {
     store.token = res.access_token
     store.isLoggedIn = true
+    localStorage.setItem('token', res.access_token)
+    localStorage.setItem('token_expiry', Math.floor(Date.now()/1000) + res.expires_in)
     router.replace('/')
   } else {
     local_store.message = res.error_description

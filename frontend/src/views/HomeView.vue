@@ -1,5 +1,28 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useUserStore, useLoginStore } from '../stores'
+
+const store = useLoginStore()
+const user = useUserStore()
+const router = useRouter()
+
+onMounted(async () => {
+  const response = await fetch(`${store.apiServer}/api/user`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${store.token}`
+    }
+  })
+  if (response.ok) {
+    const res = await response.json()
+    console.log(res)
+    user.setUser(res)
+  } else {
+    // router.replace('/login')
+  }
+})
+
 </script>
 
 <template>
