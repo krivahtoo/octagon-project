@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+  colors="true"
+  verbose="true"
+  stopOnFailure="false">
+    <testsuites>
+      <testsuite name="Slim PHP Unit testing">
+        <directory>tests</directory>
+      </testsuite>
+    </testsuites>
+</phpunit>
